@@ -15,7 +15,11 @@ public class SenderServiceImpl implements SenderService {
 
     @Override
     public void sendNotification(MessageDto message) {
-        log.info("Message is about to be sent: {}", message);
-        rabbitTemplate.convertAndSend(QueueConfiguration.OUTBOUND_EXCHANGE, QueueConfiguration.OUTBOUND_ROUTING_KEY, message.getMessage());
+        log.info("Sending message: {}", message);
+
+        rabbitTemplate.convertAndSend(
+                QueueConfiguration.OUTBOUND_EXCHANGE,
+                QueueConfiguration.OUTBOUND_ROUTING_KEY,
+                message.getMessage());
     }
 }
