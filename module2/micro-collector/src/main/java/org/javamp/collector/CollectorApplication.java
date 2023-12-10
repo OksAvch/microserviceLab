@@ -1,4 +1,4 @@
-package org.javamp.sender;
+package org.javamp.collector;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

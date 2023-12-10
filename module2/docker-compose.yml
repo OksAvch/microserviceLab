@@ -1,0 +1,29 @@
+version: "3.8"
+services:
+
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - sender
+
+  sender:
+    build:
+      context: ./sender
+      dockerfile: ./Dockerfile
+      args:
+        VERSION: "local"
+    expose:
+      - 8090
+    depends_on:
+      - rabbitmq
+    networks:
+      - sender
+
+networks:
+  sender:
+    ipam:
+      driver: default

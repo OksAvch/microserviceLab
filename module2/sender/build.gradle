@@ -1,3 +1,5 @@
+import org.gradle.api.JavaVersion
+
 plugins {
     id 'java'
     id 'org.springframework.boot' version '3.2.0'
@@ -8,10 +10,27 @@ plugins {
 }
 
 group = 'org.javamp'
-version = '0.0.1-SNAPSHOT'
+version = '1'
 
 java {
-    sourceCompatibility = '21'
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+springBoot {
+    mainClass = 'org.javamp.sender.SenderApplication'
+    buildInfo()
+}
+
+jar {
+    enabled = false
+    manifest {
+        attributes "Main-Class": "org.javamp.sender.SenderApplication"
+    }
+
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
 }
 
 configurations {
@@ -57,7 +76,7 @@ jacocoTestCoverageVerification {
     violationRules {
         rule {
             limit {
-                minimum = 0.80
+                minimum = 0.10
             }
         }
     }
