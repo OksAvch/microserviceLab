@@ -37,6 +37,19 @@ services:
     networks:
       - recipient
 
+  collector:
+    build:
+      context: ./collector
+      dockerfile: ./Dockerfile
+      args:
+        VERSION: "local"
+    expose:
+      - 8092
+    depends_on:
+      - recipient
+    networks:
+      - recipient
+
 networks:
   sender:
     ipam:

@@ -11,7 +11,16 @@ group = 'org.javamp'
 version = '1'
 
 java {
-    sourceCompatibility = '21'
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+springBoot {
+    buildInfo()
+}
+
+jar {
+    enabled = false
 }
 
 configurations {

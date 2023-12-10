@@ -1,2 +1,5 @@
 server:
   port: 8092
+integration:
+  recipient:
+    url: "http://recipient:8091/messages"
