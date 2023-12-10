@@ -9,6 +9,7 @@ services:
       - "15672:15672"
     networks:
       - sender
+      - recipient
 
   sender:
     build:
@@ -23,7 +24,23 @@ services:
     networks:
       - sender
 
+  recipient:
+    build:
+      context: ./recipient
+      dockerfile: ./Dockerfile
+      args:
+        VERSION: "local"
+    expose:
+      - 8091
+    depends_on:
+      - sender
+    networks:
+      - recipient
+
 networks:
   sender:
+    ipam:
+      driver: default
+  recipient:
     ipam:
       driver: default
