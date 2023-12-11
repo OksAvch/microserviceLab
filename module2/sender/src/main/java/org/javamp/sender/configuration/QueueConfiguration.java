@@ -16,12 +16,12 @@ public class QueueConfiguration {
 
     @Bean
     public Queue outboundQueue() {
-        return new Queue(OUTBOUND_QUEUE, false);
+        return new Queue(OUTBOUND_QUEUE, true);
     }
 
     @Bean
     TopicExchange exchange() {
-        return new TopicExchange(OUTBOUND_EXCHANGE);
+        return new TopicExchange(OUTBOUND_EXCHANGE,true, false);
     }
 
     @Bean

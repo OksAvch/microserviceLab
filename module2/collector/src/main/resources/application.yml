@@ -3,3 +3,20 @@ server:
 integration:
   recipient:
     url: "http://recipient:8091/messages"
+spring:
+  rabbitmq.host : rabbitmq
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+    enabled-by-default: false
+  endpoint:
+    metrics:
+      enabled: true
+    info:
+      enabled: true
+    health:
+      enabled: true
+    prometheus:
+      enabled: true

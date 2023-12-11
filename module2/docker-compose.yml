@@ -1,9 +1,31 @@
 version: "3.8"
 services:
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - "./configuration/prometheus.yml:/etc/prometheus/prometheus.yml"
+    networks:
+      - sender
+      - recipient
+    ports:
+      - "9090:9090"
+
+  grafana:
+    image: grafana/grafana
+    volumes:
+      - "./docker/grafana-data:/var/lib/grafana"
+    networks:
+      - sender
+      - recipient
+    ports:
+      - "3000:3000"
 
   rabbitmq:
     image: rabbitmq:management
     container_name: rabbitmq
+    volumes:
+      - "./configuration/rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf"
+      - "./configuration/rabbitmq/definitions.json:/etc/rabbitmq/definitions.json"
     ports:
       - "5672:5672"
       - "15672:15672"
@@ -17,8 +39,8 @@ services:
       dockerfile: ./Dockerfile
       args:
         VERSION: "local"
-    expose:
-      - 8090
+    ports:
+      - "8090:8090"
     depends_on:
       - rabbitmq
     networks:
@@ -30,8 +52,8 @@ services:
       dockerfile: ./Dockerfile
       args:
         VERSION: "local"
-    expose:
-      - 8091
+    ports:
+      - "8091:8091"
     depends_on:
       - sender
     networks:
@@ -43,8 +65,8 @@ services:
       dockerfile: ./Dockerfile
       args:
         VERSION: "local"
-    expose:
-      - 8092
+    ports:
+      - "8092:8092"
     depends_on:
       - recipient
     networks:
