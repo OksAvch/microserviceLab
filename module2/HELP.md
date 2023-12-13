@@ -42,8 +42,16 @@ kubectl apply -f deployment_rabbitmq.yml
 kubectl apply -f deployment_sender.yml
 kubectl apply -f deployment_recipient.yml
 kubectl apply -f deployment_collector.yml
+
+#to start prometheus
+kubectl create configmap prometheus-config --from-file=./k8_configuration/prometheus.yml -n module2
+kubectl apply -f deployment_prometheus.yml
+
+kubectl apply -f deployment_grafana.yml
 ```
-to down a pod use `kubectl down -f deployment_rabbitmq.yml`.
+to stop a pod use `kubectl down -f deployment_rabbitmq.yml`.
+
+4. To be able to reach services from your local machine establish a tunnel in separate console via command: `minikube tunnel`
 
 ### Links
 - Grafana: http://localhost:15672/
@@ -53,7 +61,7 @@ to down a pod use `kubectl down -f deployment_rabbitmq.yml`.
   - useful metric: rate(messages_sent_total[5m])
   - Grafana:
     login: admin
-    password: 
+    password: admin
 
 
 ### Additional Links
