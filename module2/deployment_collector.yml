@@ -25,6 +25,8 @@ spec:
           env:
             - name: RECIPIENT_HOST
               value: recipient-service
+            - name: MESSAGES_DB_HOST
+              value: postgres-service
 
 ---
 apiVersion: v1

@@ -4,7 +4,19 @@ integration:
   recipient:
     url: "http://${RECIPIENT_HOST:localhost}:8091/messages"
 spring:
-  rabbitmq.host : ${RABBITMQ_HOST:localhost}
+  rabbitmq:
+    host : ${RABBITMQ_HOST:localhost}
+  datasource:
+    url: jdbc:postgresql://${MESSAGES_DB_HOST:localhost}:5432/messagesDb
+    username: admin
+    password: admin
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate.ddl-auto: none
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+
+
 management:
   endpoints:
     web:

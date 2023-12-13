@@ -1,6 +1,7 @@
 package org.javamp.collector.integration;
 
 import io.micrometer.core.instrument.Counter;
+import org.javamp.collector.service.MessageService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -17,13 +18,15 @@ class RecipientIntegrationImplTest {
     @Mock
     RestTemplate restTemplateMock;
     @Mock
+    MessageService messageService;
+    @Mock
     Counter meterRegistry;
 
     RecipientIntegrationImpl sut;
 
     @Test
     void shouldCountZeroMessages() {
-        sut = new RecipientIntegrationImpl(URL, restTemplateMock, meterRegistry);
+        sut = new RecipientIntegrationImpl(URL, restTemplateMock, meterRegistry, messageService);
 
         when(restTemplateMock.getForObject(URL, String.class)).thenReturn("[\"message1\",\"message2\"]");
 
@@ -32,7 +35,7 @@ class RecipientIntegrationImplTest {
 
     @Test
     void shouldCountMessages() {
-        sut = new RecipientIntegrationImpl(URL, restTemplateMock, meterRegistry);
+        sut = new RecipientIntegrationImpl(URL, restTemplateMock, meterRegistry, messageService);
 
         when(restTemplateMock.getForObject(URL, String.class)).thenReturn("[]");
 

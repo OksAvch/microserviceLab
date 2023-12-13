@@ -1,36 +1,37 @@
 package org.javamp.collector.integration;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.core.instrument.Counter;
 import lombok.extern.slf4j.Slf4j;
+import org.javamp.collector.service.MessageService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Component
 public class RecipientIntegrationImpl implements RecipientIntegration {
-    public static final String SPLITERATOR = ",";
-    public static final String START_CHARACTER = "[";
-    public static final String END_CHARACTER = "]";
-    public static final String EMPTY = "";
 
     private final String recipientUrl;
     private final RestTemplate restTemplate;
     private final Counter messagesCounter;
+    private final MessageService messageService;
 
     public RecipientIntegrationImpl(
             @Value("${integration.recipient.url}") String recipientUrl,
             RestTemplate restTemplate,
-            Counter messagesCounter) {
+            Counter messagesCounter,
+            MessageService messageService) {
 
         this.recipientUrl = recipientUrl;
         this.restTemplate = restTemplate;
         this.messagesCounter = messagesCounter;
+        this.messageService = messageService;
     }
 
     @Override
@@ -43,6 +44,7 @@ public class RecipientIntegrationImpl implements RecipientIntegration {
         log.info("messages got: {}", receivedMessages.size());
         if (!receivedMessages.isEmpty()) {
             log.info("messages counter before increment: {}", messagesCounter.count());
+            messageService.saveMessage(receivedMessages);
             messagesCounter.increment(receivedMessages.size());
         }
 
@@ -50,12 +52,14 @@ public class RecipientIntegrationImpl implements RecipientIntegration {
         return receivedMessages;
     }
 
+    @SuppressWarnings("unchecked")
     private List<String> parseMessages(String response) {
-        return Optional.ofNullable(response)
-                .map(r -> r.replace(START_CHARACTER, EMPTY))
-                .map(r -> r.replace(END_CHARACTER, EMPTY))
-                .filter(s -> !s.isEmpty())
-                .map(r -> Arrays.asList(r.split(SPLITERATOR)))
-                .orElse(Collections.emptyList());
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            return (ArrayList<String>) objectMapper.readValue(response, ArrayList.class);
+        } catch (JsonProcessingException e) {
+            log.error("Messages list could not be parsed: {}", response);
+            return Collections.emptyList();
+        }
     }
 }
