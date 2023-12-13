@@ -1,0 +1,44 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: visualizer
+  namespace: module2
+  labels:
+    app: visualizer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: visualizer
+  template:
+    metadata:
+      labels:
+        app: visualizer
+    spec:
+      containers:
+        - name: visualizer
+          image: module2/visualizer:release
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8093
+          env:
+            - name: MESSAGES_DB_HOST
+              value: postgres-service
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: visualizer-service
+  namespace: module2
+  labels:
+    app: visualizer
+spec:
+  selector:
+    app: visualizer
+  ports:
+    - protocol: "TCP"
+      port: 8093
+      targetPort: 8093
+  type: LoadBalancer

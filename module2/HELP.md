@@ -34,6 +34,7 @@ ref: https://stackoverflow.com/questions/42564058/how-can-i-use-local-docker-ima
 docker build -t module2/sender:release ./sender
 docker build -t module2/recipient:release  ./recipient
 docker build -t module2/collector:release ./collector
+docker build -t module2/visualizer:release ./visualizer
 ```
 2. Create namespace using command: `kubectl apply -f namespaces.yaml`
 3. Start pods using commands: 
@@ -42,6 +43,7 @@ kubectl apply -f deployment_rabbitmq.yml
 kubectl apply -f deployment_sender.yml
 kubectl apply -f deployment_recipient.yml
 kubectl apply -f deployment_collector.yml
+kubectl apply -f deployment_visualizer.yml
 
 #to start prometheus
 kubectl create configmap prometheus-config --from-file=./k8_configuration/prometheus.yml -n module2

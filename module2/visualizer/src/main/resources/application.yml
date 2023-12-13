@@ -1,0 +1,27 @@
+server:
+  port: 8093
+spring:
+  datasource:
+    url: jdbc:postgresql://${MESSAGES_DB_HOST:localhost}:5432/messagesDb
+    username: admin
+    password: admin
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate.ddl-auto: none
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+    enabled-by-default: false
+  endpoint:
+    metrics:
+      enabled: true
+    info:
+      enabled: true
+    health:
+      enabled: true
+    prometheus:
+      enabled: true

@@ -21,3 +21,8 @@ scrape_configs:
     scrape_interval: 5s
     static_configs:
       - targets: ['collector-service:8092']
+  - job_name: 'visualize'
+    metrics_path: '/actuator/prometheus'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['visualizer-service:8093']
