@@ -1,0 +1,44 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: recipient
+  namespace: module2
+  labels:
+    app: recipient
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: recipient
+  template:
+    metadata:
+      labels:
+        app: recipient
+    spec:
+      containers:
+        - name: recipient
+          image: module2/recipient:release
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8091
+          env:
+            - name: RABBITMQ_HOST
+              value: rabbitmq-service
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: recipient-service
+  namespace: module2
+  labels:
+    app: recipient
+spec:
+  selector:
+    app: recipient
+  ports:
+    - protocol: "TCP"
+      port: 8091
+      targetPort: 8091
+  type: LoadBalancer

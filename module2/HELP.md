@@ -24,6 +24,27 @@ docker build --progress=plain --no-cache -t sender .
 docker run -d --name sender sender
 ```
 
+### Gide for Kubernetes
+0. Set minikube to use local images: `eval $(minikube docker-env)`. 
+**Important note**: You have to run eval $(minikube docker-env) on each terminal you want to use, since it only sets the environment variables for the current shell session.
+ref: https://stackoverflow.com/questions/42564058/how-can-i-use-local-docker-images-with-minikube/48999680#48999680
+
+1. Build docker containers for all the images using commands:
+```
+docker build -t module2/sender:release ./sender
+docker build -t module2/recipient:release  ./recipient
+docker build -t module2/collector:release ./collector
+```
+2. Create namespace using command: `kubectl apply -f namespaces.yaml`
+3. Start pods using commands: 
+```
+kubectl apply -f deployment_rabbitmq.yml
+kubectl apply -f deployment_sender.yml
+kubectl apply -f deployment_recipient.yml
+kubectl apply -f deployment_collector.yml
+```
+to down a pod use `kubectl down -f deployment_rabbitmq.yml`.
+
 ### Links
 - Grafana: http://localhost:15672/
     login: guest

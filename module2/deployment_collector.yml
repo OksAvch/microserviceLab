@@ -1,0 +1,44 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: collector
+  namespace: module2
+  labels:
+    app: collector
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: collector
+  template:
+    metadata:
+      labels:
+        app: collector
+    spec:
+      containers:
+        - name: collector
+          image: module2/collector:release
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8092
+          env:
+            - name: RECIPIENT_HOST
+              value: recipient-service
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: collector-service
+  namespace: module2
+  labels:
+    app: collector
+spec:
+  selector:
+    app: collector
+  ports:
+    - protocol: "TCP"
+      port: 8092
+      targetPort: 8092
+  type: LoadBalancer
