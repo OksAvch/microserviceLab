@@ -37,8 +37,8 @@ services:
     build:
       context: ./sender
       dockerfile: ./Dockerfile
-      args:
-        VERSION: "local"
+    environment:
+      - RABBITMQ_HOST=rabbitmq
     ports:
       - "8090:8090"
     depends_on:
@@ -50,8 +50,8 @@ services:
     build:
       context: ./recipient
       dockerfile: ./Dockerfile
-      args:
-        VERSION: "local"
+    environment:
+      - RABBITMQ_HOST=rabbitmq
     ports:
       - "8091:8091"
     depends_on:
@@ -63,8 +63,8 @@ services:
     build:
       context: ./collector
       dockerfile: ./Dockerfile
-      args:
-        VERSION: "local"
+    environment:
+      - RECIPIENT_HOST=recipient
     ports:
       - "8092:8092"
     depends_on:
