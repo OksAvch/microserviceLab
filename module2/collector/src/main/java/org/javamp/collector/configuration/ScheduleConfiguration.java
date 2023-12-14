@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
-import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @Configuration
@@ -16,12 +16,16 @@ import java.util.List;
 public class ScheduleConfiguration {
     private final RecipientIntegration recipientIntegration;
 
-    @Scheduled(fixedDelay = 10000)
+    @Scheduled(fixedDelay = 20000)
     public void scheduleFixedDelayTask() {
         log.info("Initiating message pull");
 
-        List<String> messagesReceived = recipientIntegration.pullMessages();
+        String messageReceived = recipientIntegration.pullMessage();
 
-        log.info("Messages received: {}", messagesReceived);
+        if (Objects.isNull(messageReceived)) {
+            log.info("No message received: {}", messageReceived);
+        } else {
+            log.info("Message received: {}", messageReceived);
+        }
     }
 }

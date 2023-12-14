@@ -16,8 +16,8 @@ public class MessageControllerImpl implements MessageController {
 
     @Override
     @GetMapping("/messages")
-    public List<String> getMessages() {
-        log.info("Request to provide messages was received");
-        return service.getMessages();
+    public String getMessages() {
+        log.info("Request to provide next message was received");
+        return service.getMessage();
     }
 }

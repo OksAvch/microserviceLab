@@ -16,7 +16,7 @@ public class ScheduleConfiguration {
 
     private final MessageService messageService;
 
-    @Scheduled(fixedDelay = 7000)
+    @Scheduled(fixedDelay = 4000)
     public void scheduleFixedDelayTask() {
         log.info("Initiating message pull");
 

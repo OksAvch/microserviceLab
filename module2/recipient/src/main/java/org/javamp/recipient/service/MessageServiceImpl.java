@@ -18,7 +18,7 @@ public class MessageServiceImpl implements MessageService {
     private final RabbitTemplate rabbitTemplate;
 
     @Override
-    public List<String> getMessages() {
+    public String getMessage() {
         return storage.pull();
     }
 

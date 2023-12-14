@@ -15,6 +15,7 @@ import static org.mockito.Mockito.when;
 class RecipientIntegrationImplTest {
 
     public static final String URL = "url";
+    public static final String MESSAGE = "\"message1\"";
     @Mock
     RestTemplate restTemplateMock;
     @Mock
@@ -28,17 +29,17 @@ class RecipientIntegrationImplTest {
     void shouldCountZeroMessages() {
         sut = new RecipientIntegrationImpl(URL, restTemplateMock, meterRegistry, messageService);
 
-        when(restTemplateMock.getForObject(URL, String.class)).thenReturn("[\"message1\",\"message2\"]");
+        when(restTemplateMock.getForObject(URL, String.class)).thenReturn(MESSAGE);
 
-        assertEquals(2, sut.pullMessages().size());
+        assertEquals(MESSAGE, sut.pullMessage());
     }
 
     @Test
     void shouldCountMessages() {
         sut = new RecipientIntegrationImpl(URL, restTemplateMock, meterRegistry, messageService);
 
-        when(restTemplateMock.getForObject(URL, String.class)).thenReturn("[]");
+        when(restTemplateMock.getForObject(URL, String.class)).thenReturn(null);
 
-        assertEquals(0, sut.pullMessages().size());
+        assertEquals(null, sut.pullMessage());
     }
 }

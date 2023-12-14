@@ -3,18 +3,15 @@ package org.javamp.recipient.data;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedList;
 
 @Service
 @AllArgsConstructor
 public class MessageStorage {
-    private static final List<String> MESSAGE_STORAGE = new ArrayList<>();
+    private static final LinkedList<String> MESSAGE_STORAGE = new LinkedList<>();
 
-    public List<String> pull() {
-        List<String> messagesState = new ArrayList<>(MESSAGE_STORAGE);
-        MESSAGE_STORAGE.clear();
-        return messagesState;
+    public String pull() {
+        return MESSAGE_STORAGE.pollFirst();
     }
 
     public void store(String message) {

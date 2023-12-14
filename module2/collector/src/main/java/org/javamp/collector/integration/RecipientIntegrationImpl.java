@@ -1,7 +1,5 @@
 package org.javamp.collector.integration;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.core.instrument.Counter;
 import lombok.extern.slf4j.Slf4j;
 import org.javamp.collector.service.MessageService;
@@ -9,9 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @Component
@@ -35,31 +31,26 @@ public class RecipientIntegrationImpl implements RecipientIntegration {
     }
 
     @Override
-    public List<String> pullMessages() {
+    public String pullMessage() {
         String response = restTemplate.getForObject(recipientUrl, String.class);
 
         log.info("response: '{}'", response);
-        List<String> receivedMessages = parseMessages(response);
+        String receivedMessage = parseMessages(response);
 
-        log.info("messages got: {}", receivedMessages.size());
-        if (!receivedMessages.isEmpty()) {
-            log.info("messages counter before increment: {}", messagesCounter.count());
-            messageService.saveMessage(receivedMessages);
-            messagesCounter.increment(receivedMessages.size());
+        log.info("messages got: {}", receivedMessage);
+        if (Objects.isNull(receivedMessage)) {
+            return null;
         }
+
+        log.info("messages counter before increment: {}", messagesCounter.count());
+        messageService.saveMessage(receivedMessage);
+        messagesCounter.increment();
 
         log.info("messages counter in the end: {}", messagesCounter.count());
-        return receivedMessages;
+        return receivedMessage;
     }
 
-    @SuppressWarnings("unchecked")
-    private List<String> parseMessages(String response) {
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            return (ArrayList<String>) objectMapper.readValue(response, ArrayList.class);
-        } catch (JsonProcessingException e) {
-            log.error("Messages list could not be parsed: {}", response);
-            return Collections.emptyList();
-        }
+    private String parseMessages(String response) {
+        return response;
     }
 }

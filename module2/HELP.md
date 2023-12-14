@@ -77,6 +77,13 @@ kubectl apply -f canary_deployment/deployment_ingress.yml
 5. Check service: `visualizer.com/saved-messages` 
 
 
+### Blue/green deployment
+1. Build docker images for collector and receiver for blue/green deploy:
+```
+docker build -t module2/collector:blueGreen ./collector
+docker build -t module2/receiver:blueGreen ./receiver
+```
+
 ### Links
 - Grafana: http://localhost:15672/
     login: guest
