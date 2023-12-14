@@ -7,6 +7,5 @@ import lombok.Data;
 @Builder
 public class MessageDto {
 
-    private long id;
     private String message;
 }

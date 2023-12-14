@@ -9,7 +9,6 @@ public class MessageDtoMapperImpl implements MessageDtoMapper {
     @Override
     public MessageDto map(MessageEntity entity) {
         return MessageDto.builder()
-                .id(entity.getId())
                 .message(entity.getMessage())
                 .build();
     }

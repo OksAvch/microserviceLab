@@ -29,7 +29,7 @@ docker run -d --name sender sender
 **Important note**: You have to run eval $(minikube docker-env) on each terminal you want to use, since it only sets the environment variables for the current shell session.
 ref: https://stackoverflow.com/questions/42564058/how-can-i-use-local-docker-images-with-minikube/48999680#48999680
 
-1. Build docker containers for all the images using commands:
+1. Build docker containers for all the services using commands:
 ```
 docker build -t module2/sender:release ./sender
 docker build -t module2/recipient:release  ./recipient
@@ -51,17 +51,42 @@ kubectl apply -f deployment_prometheus.yml
 
 kubectl apply -f deployment_grafana.yml
 ```
-to stop a pod use `kubectl down -f deployment_rabbitmq.yml`.
+to stop a pod use `kubectl delete -f deployment_rabbitmq.yml`.
 
 4. To be able to reach services from your local machine establish a tunnel in separate console via command: `minikube tunnel`
+
+### Canary deployment
+1. Build docker image for visualizer canary version:
+```
+docker build -t module2/visualizer:canary ./visualizer
+```
+2. Start canary pod and its service using commands:
+```
+kubectl apply -f canary_deployment/deployment_visualizer.yml
+```
+3. Install ingress-nginx
+```
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+helm repo update
+helm install nginx-ingress ingress-nginx/ingress-nginx
+```
+4. Configure ingress:
+```
+kubectl apply -f canary_deployment/deployment_ingress.yml
+```
+5. Check service: `visualizer.com/saved-messages` 
+
 
 ### Links
 - Grafana: http://localhost:15672/
     login: guest
     password: guest
 - Prometheus: http://localhost:9090/targets
-  - useful metric: rate(messages_sent_total[5m])
-  - Grafana:
+    useful metric: rate(messages_sent_total[5m])
+- Grafana:
+    login: admin
+    password: admin
+- Postgres: jdbc:postgresql://localhost:5432/messagesDb
     login: admin
     password: admin
 
@@ -72,4 +97,6 @@ https://www.linkedin.com/learning/spring-boot-2-0-essential-training-2
 https://www.linkedin.com/learning/extending-securing-and-dockerizing-spring-boot-microservices/
 Microservice architecture: https://www.linkedin.com/learning/spring-cloud-cloud-native-architecture-and-distributed-systems
 Actuator, Prometheus, Grafana configuration: https://www.linkedin.com/learning/advanced-spring-spring-boot-actuator/
-
+Canary deployment:
+https://earthly.dev/blog/canary-deployment-in-k8s/
+https://medium.com/tech-at-wildlife-studios/canary-deployment-in-kubernetes-how-to-use-the-pattern-b2e9c40d085d

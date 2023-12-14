@@ -1,0 +1,44 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: visualizer-canary
+  namespace: module2
+  labels:
+    app: visualizer-canary
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: visualizer-canary
+  template:
+    metadata:
+      labels:
+        app: visualizer-canary
+    spec:
+      containers:
+        - name: visualizer-canary
+          image: module2/visualizer:canary
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8093
+          env:
+            - name: MESSAGES_DB_HOST
+              value: postgres-service
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: visualizer-service-canary
+  namespace: module2
+  labels:
+    app: visualizer-canary
+spec:
+  selector:
+    app: visualizer-canary
+  ports:
+    - protocol: "TCP"
+      port: 8093
+      targetPort: 8093
+  type: LoadBalancer
