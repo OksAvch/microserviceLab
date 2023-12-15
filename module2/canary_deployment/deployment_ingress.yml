@@ -3,14 +3,10 @@ kind: Ingress
 metadata:
   name: visualizer-ingress
   namespace: module2
-  annotations:
-    nginx.ingress.kubernetes.io/canary: "true"
-    nginx.ingress.kubernetes.io/canary-weight: "90"
 spec:
   ingressClassName: nginx
   rules:
-    - host: module2.visualizer.com
-      http:
+    - http:
         paths:
           - path: /
             pathType: Prefix
@@ -28,12 +24,11 @@ metadata:
   namespace: module2
   annotations:
     nginx.ingress.kubernetes.io/canary: "true"
-    nginx.ingress.kubernetes.io/canary-weight: "10"
+    nginx.ingress.kubernetes.io/canary-weight: "0"
 spec:
   ingressClassName: nginx
   rules:
-    - host: module2.visualizer.com
-      http:
+    - http:
         paths:
           - path: /
             pathType: Prefix
@@ -41,4 +36,4 @@ spec:
               service:
                 name: visualizer-service-canary
                 port:
-                  number: 8093
+                  number: 8099

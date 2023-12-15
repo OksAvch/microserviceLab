@@ -21,7 +21,7 @@ spec:
           image: module2/visualizer:canary
           imagePullPolicy: IfNotPresent
           ports:
-            - containerPort: 8093
+            - containerPort: 8099
           env:
             - name: MESSAGES_DB_HOST
               value: postgres-service
@@ -39,6 +39,6 @@ spec:
     app: visualizer-canary
   ports:
     - protocol: "TCP"
-      port: 8093
-      targetPort: 8093
+      port: 8099
+      targetPort: 8099
   type: LoadBalancer

@@ -6,7 +6,7 @@ Project configuration could be found in `./docker-compose.yml` and `./configurat
 The following guides illustrate how to start application:
 1. Run compose file in the root of the project and all the services should be up and running:
 ```
-docker-compose build --no-cache    
+docker-compose build --no-cache
 docker-compose up -d
 ```
 2. Now the messages could be send via sender service via request below:
