@@ -1,5 +1,5 @@
-ARG GRADLE_IMG=gradle:jdk17
-ARG JAVA_IMG=openjdk:17-jdk-slim
+ARG GRADLE_IMG=gradle:jdk21
+ARG JAVA_IMG=openjdk:21-jdk-slim
 
 FROM $GRADLE_IMG AS builder
 WORKDIR /workdir

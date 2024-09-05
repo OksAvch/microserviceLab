@@ -3,13 +3,13 @@ Project configuration could be found in `./docker-compose.yml` and `./configurat
 `application.yml` and `Dockerfile` of each particular submodule.
 
 ### Guides
-The following guides illustrate how to start application:
+The following guides illustrate how to start all applications:
 1. Run compose file in the root of the project and all the services should be up and running:
 ```
 docker-compose build --no-cache
 docker-compose up -d
 ```
-2. Now the messages could be send via sender service via request below:
+2. Now the messages could be sent via sender service using request below:
 ```
 POST http://localhost:8090/notification
    {
@@ -18,7 +18,7 @@ POST http://localhost:8090/notification
    }
 ```
 
-If you need to build and start microservices sepparetly you may use commands below:
+If you need to build and start microservices separately, you can use the commands below:
 ```
 docker build --progress=plain --no-cache -t sender .
 docker run -d --name sender sender
@@ -84,22 +84,17 @@ docker build -t module2/collector:blueGreen ./collector
 docker build -t module2/receiver:blueGreen ./receiver
 ```
 
-### Links
+### Apps Links
 - Grafana: http://localhost:15672/
-    login: guest
-    password: guest
-- Prometheus: http://localhost:9090/targets
-    useful metric: rate(messages_sent_total[5m])
-- Grafana:
-    login: admin
+    login: admin   
     password: admin
+- Prometheus: http://localhost:9090/targets
 - Postgres: jdbc:postgresql://localhost:5432/messagesDb
     login: admin
     password: admin
 
-
-### Additional Links
-Microservice essentials: 
+### References
+Microservice essentials:
 https://www.linkedin.com/learning/spring-boot-2-0-essential-training-2
 https://www.linkedin.com/learning/extending-securing-and-dockerizing-spring-boot-microservices/
 Microservice architecture: https://www.linkedin.com/learning/spring-cloud-cloud-native-architecture-and-distributed-systems
