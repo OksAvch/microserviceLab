@@ -3,7 +3,7 @@ Project configuration could be found in `./docker-compose.yml` and `./configurat
 `application.yml` and `Dockerfile` of each particular submodule.
 
 ### Guides
-The following guides illustrate how to start all applications:
+The following guides illustrate how to start and use the application:
 1. Run compose file in the root of the project and all the services should be up and running:
 ```
 docker-compose build --no-cache
@@ -31,10 +31,10 @@ ref: https://stackoverflow.com/questions/42564058/how-can-i-use-local-docker-ima
 
 1. Build docker containers for all the services using commands:
 ```
-docker build -t module2/sender:release ./sender
-docker build -t module2/recipient:release  ./recipient
-docker build -t module2/collector:release ./collector
-docker build -t module2/visualizer:release ./visualizer
+docker build -t sender:release ./sender
+docker build -t recipient:release  ./recipient
+docker build -t collector:release ./collector
+docker build -t visualizer:release ./visualizer
 ```
 2. Create namespace using command: `kubectl apply -f namespaces.yaml`
 3. Start pods using commands: 
@@ -46,7 +46,7 @@ kubectl apply -f deployment_collector.yml
 kubectl apply -f deployment_visualizer.yml
 
 #to start prometheus
-kubectl create configmap prometheus-config --from-file=./k8_configuration/prometheus.yml -n module2
+kubectl create configmap prometheus-config --from-file=./k8_configuration/prometheus.yml -n microserviceLab 
 kubectl apply -f deployment_prometheus.yml
 
 kubectl apply -f deployment_grafana.yml
@@ -58,7 +58,7 @@ to stop a pod use `kubectl delete -f deployment_rabbitmq.yml`.
 ### Canary deployment
 1. Build docker image for visualizer canary version:
 ```
-docker build -t module2/visualizer:canary ./visualizer
+docker build -t visualizer:canary ./visualizer
 ```
 2. Start canary pod and its service using commands:
 ```
@@ -80,25 +80,25 @@ kubectl apply -f canary_deployment/deployment_ingress.yml
 ### Blue/green deployment
 1. Build docker images for collector and receiver for blue/green deploy:
 ```
-docker build -t module2/collector:blueGreen ./collector
-docker build -t module2/receiver:blueGreen ./receiver
+docker build -t collector:blueGreen ./collector
+docker build -t receiver:blueGreen ./receiver
 ```
 
 ### Apps Links
-- Grafana: http://localhost:15672/
+- Grafana: http://localhost:15672/    
     login: admin   
     password: admin
 - Prometheus: http://localhost:9090/targets
-- Postgres: jdbc:postgresql://localhost:5432/messagesDb
-    login: admin
+- Postgres: jdbc:postgresql://localhost:5432/messagesDb    
+    login: admin    
     password: admin
 
 ### References
 Microservice essentials:
-https://www.linkedin.com/learning/spring-boot-2-0-essential-training-2
-https://www.linkedin.com/learning/extending-securing-and-dockerizing-spring-boot-microservices/
-Microservice architecture: https://www.linkedin.com/learning/spring-cloud-cloud-native-architecture-and-distributed-systems
-Actuator, Prometheus, Grafana configuration: https://www.linkedin.com/learning/advanced-spring-spring-boot-actuator/
-Canary deployment:
-https://earthly.dev/blog/canary-deployment-in-k8s/
-https://medium.com/tech-at-wildlife-studios/canary-deployment-in-kubernetes-how-to-use-the-pattern-b2e9c40d085d
+https://www.linkedin.com/learning/spring-boot-2-0-essential-training-2    
+https://www.linkedin.com/learning/extending-securing-and-dockerizing-spring-boot-microservices/    
+Microservice architecture: https://www.linkedin.com/learning/spring-cloud-cloud-native-architecture-and-distributed-systems    
+Actuator, Prometheus, Grafana configuration: https://www.linkedin.com/learning/advanced-spring-spring-boot-actuator/     
+Canary deployment:   
+https://earthly.dev/blog/canary-deployment-in-k8s/    
+https://medium.com/tech-at-wildlife-studios/canary-deployment-in-kubernetes-how-to-use-the-pattern-b2e9c40d085d     

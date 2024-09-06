@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: visualizer-canary
-  namespace: module2
+  namespace: microserviceLab
   labels:
     app: visualizer-canary
 spec:
@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: visualizer-canary
-          image: module2/visualizer:canary
+          image: microserviceLab/visualizer:canary
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8099
@@ -31,7 +31,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: visualizer-service-canary
-  namespace: module2
+  namespace: microserviceLab
   labels:
     app: visualizer-canary
 spec:

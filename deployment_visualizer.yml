@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: visualizer
-  namespace: module2
+  namespace: microserviceLab
   labels:
     app: visualizer
 spec:
@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: visualizer
-          image: module2/visualizer:release
+          image: microserviceLab/visualizer:release
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8093
@@ -31,7 +31,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: visualizer-service
-  namespace: module2
+  namespace: microserviceLab
   labels:
     app: visualizer
 spec:

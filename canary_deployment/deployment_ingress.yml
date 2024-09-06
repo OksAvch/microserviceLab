@@ -2,7 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: visualizer-ingress
-  namespace: module2
+  namespace: microserviceLab
 spec:
   ingressClassName: nginx
   rules:
@@ -21,7 +21,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: visualizer-ingress-canary
-  namespace: module2
+  namespace: microserviceLab
   annotations:
     nginx.ingress.kubernetes.io/canary: "true"
     nginx.ingress.kubernetes.io/canary-weight: "0"

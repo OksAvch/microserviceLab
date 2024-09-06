@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: collector
-  namespace: module2
+  namespace: microserviceLab
   labels:
     app: collector
 spec:
@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: collector
-          image: module2/collector:release
+          image: microserviceLab/collector:release
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8092
@@ -33,7 +33,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: collector-service
-  namespace: module2
+  namespace: microserviceLab
   labels:
     app: collector
 spec:

@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: recipient
-  namespace: module2
+  namespace: microserviceLab
   labels:
     app: recipient
 spec:
@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: recipient
-          image: module2/recipient:release
+          image: microserviceLab/recipient:release
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8091
@@ -31,7 +31,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: recipient-service
-  namespace: module2
+  namespace: microserviceLab
   labels:
     app: recipient
 spec:

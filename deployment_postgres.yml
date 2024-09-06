@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: postgres
-  namespace: module2
+  namespace: microserviceLab
 spec:
   replicas: 1
   selector:
@@ -29,7 +29,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  namespace: module2
+  namespace: microserviceLab
   name: postgres-service
 spec:
   selector:
